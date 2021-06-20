@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import ntou.cs.springboot.entity.Article;
 import ntou.cs.springboot.entity.Comment;
+import ntou.cs.springboot.entity.Response;
 import ntou.cs.springboot.repository.ArticleRepository;
 import ntou.cs.springboot.repository.CommentRepository;
 
@@ -35,11 +36,12 @@ public class ArticleService {
 		article.setArticleName(map.get("articleName").toString());
 		article.setPostTime(map.get("postTime").toString());
 		article.setArticleContent(map.get("articleContent").toString());
+		articleRepository.insert(article);
 		
-		return articleRepository.insert(article);
+		return article;
 	}
 
-	public Article replaceArticle(Map<String, Object> map) {
+	public Response replaceArticle(Map<String, Object> map) {
 //		String articleId, String authorId, String articleName, String postTime, String articleContent
 		Article oldArticle = getArticle(map.get("articleId").toString());
 		
@@ -50,13 +52,22 @@ public class ArticleService {
 		article.setArticleName(map.get("articleName").toString());
 		article.setPostTime(map.get("postTime").toString());
 		article.setArticleContent(map.get("articleContent").toString());
+		articleRepository.save(article);
+		
+		Response response = new Response();
+    	response.setCode(200);
+    	response.setMsg("修改文章成功");
 
-		return articleRepository.save(article);
+		return response;
 	}
 
-	public void deleteArticle(String articleId) {
-		
+	public Response deleteArticle(String articleId) {
 		articleRepository.deleteByArticleId(articleId);
+		
+		Response response = new Response();
+    	response.setCode(200);
+    	response.setMsg("刪除文章成功");
+    	return response;
 	}
 	
 	public Comment createComment(String articleId, Map<String, Object> map) {
