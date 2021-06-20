@@ -11,12 +11,12 @@ public class Article {
 	private String id;
 	
 	@Indexed
-	private String authorId;
-	private String articleId;
-	private String articleName;
-	private String postTime;
-	private String articleContent;
-	private Comment articleComment; 
+	public String authorId;
+	public String articleId;
+	public String articleName;
+	public String postTime;
+	public String articleContent;
+	public Comment articleComment = null; 
 	
 	public String getId() {
 		return id;
