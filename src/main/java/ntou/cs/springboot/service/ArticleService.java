@@ -81,14 +81,8 @@ public class ArticleService {
 		
 		Article oldarticle = getArticle(articleId);
 		
-		Article article = new Article();
-		article.setId(oldarticle.getId());
-		article.setAuthorId(oldarticle.getAuthorId());
-		article.setArticleId(oldarticle.getArticleId());
-		article.setArticleName(oldarticle.getArticleName());
-		article.setArticleContent(oldarticle.getArticleContent());
-		article.setArticleComment(comment);
-		articleRepository.save(article);
+		oldarticle.addArticleComment(comment);
+		articleRepository.save(oldarticle);
 		
 		return commentRepository.insert(comment);
 	}

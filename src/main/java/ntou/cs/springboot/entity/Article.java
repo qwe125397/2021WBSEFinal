@@ -1,5 +1,7 @@
 package ntou.cs.springboot.entity;
 
+import java.util.ArrayList;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,7 +18,7 @@ public class Article {
 	public String articleName;
 	public String postTime;
 	public String articleContent;
-	public Comment articleComment = null; 
+	public ArrayList<Comment> articleComment = new ArrayList(); 
 	
 	public String getId() {
 		return id;
@@ -66,12 +68,12 @@ public class Article {
 		this.articleContent = articleContent;
 	}
 	
-	public Comment getArticleComment() {
+	public ArrayList<Comment> getArticleComment() {
 		return articleComment;
 	}
 	
-	public void setArticleComment(Comment articleComment) {
-		this.articleComment = articleComment;
+	public void addArticleComment(Comment articleComment) {
+		this.articleComment.add(articleComment);
 	}
 	
 	@Override
