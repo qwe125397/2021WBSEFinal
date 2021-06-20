@@ -49,8 +49,8 @@ public class ArticleController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping(value = "/deleteArticle")
-    public ResponseEntity<Response> deleteArticle(@RequestBody String articleId) {
+    @DeleteMapping(value = "/deleteArticle/{articleId}")
+    public ResponseEntity<Response> deleteArticle(@PathVariable("articleId") String articleId) {
     	Response response = articleService.deleteArticle(articleId);
     	
         return ResponseEntity.ok(response);
