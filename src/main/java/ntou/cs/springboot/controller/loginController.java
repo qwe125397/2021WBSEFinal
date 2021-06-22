@@ -1,4 +1,5 @@
 package ntou.cs.springboot.controller;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
+import ntou.cs.springboot.entity.Response;
 import ntou.cs.springboot.entity.user;
 import ntou.cs.springboot.service.userService;
 @RestController
@@ -32,28 +34,40 @@ public class loginController {
 	@Autowired
     private userService userService;
 	@PostMapping("/signIn")
-	public JSONObject login(@RequestBody Map<String, String> map) {
+	public ResponseEntity<Response> login(@RequestBody Map<String, String> map) {
 		user checkUser=userService.getUser(map.get("account").toString());
-		JSONObject ack;
-		if(checkUser.getPassword()==(map.get("password").toString())){
-			ack=new JSONObject( "{\"code\":200,\"message\":\"登入成功\"}");
+		Response response = new Response();
+		URI location = null;
+		System.out.println(checkUser.getPassword());
+		if(checkUser.getPassword().equals(map.get("password").toString())){
+			response.setCode(201);
+	    	response.setMsg("登入成功");
 		}
 		else {
-			ack=new JSONObject( "{\"code\":400,\"message\":\"帳號或密碼錯誤\"}");
+	    	response.setCode(201);
+	    	response.setMsg("帳號或密碼錯誤");
 		}
-		return ack;
+		return ResponseEntity.created(location).body(response);
 	}
 	@PostMapping("/signUp")
-	public JSONObject signUp(@RequestBody Map<String, String> map) {
-		JSONObject ack;
-		System.out.println(map.get("account"));
+	public ResponseEntity<Response> signUp(@RequestBody Map<String, String> map) {
+		Response response = new Response();
+		URI location=null;
 		if(userService.getUser(map.get("account").toString()) != null) {
-			ack=new JSONObject( "{\"code\":400,\"message\":\"該使用者已存在\"}");
+			response.setCode(201);
+	    	response.setMsg("帳號已存在");
 		}
 		else {
+			System.out.println(map.get("account"));
 			user newUser = userService.creatUser(map);
-			ack=new JSONObject( "{\"code\":200,\"message\":\"成功註冊\"}");
+			location = ServletUriComponentsBuilder
+	                .fromCurrentRequest()
+	                .path("/{id}")
+	                .buildAndExpand(newUser.getId())
+	                .toUri();
+			response.setCode(201);
+	    	response.setMsg("註冊成功");
 		}
-		return ack;
+		return ResponseEntity.created(location).body(response);
 	}
 }

@@ -68,8 +68,8 @@ public class SearchController {
 		return result;
 	}
 	@GetMapping("/searchHotArticles")
-	public ArrayList<Article> searchHotArticles() {
-		ArrayList<Article> result=new ArrayList<Article>();
+	public List<Article> searchHotArticles() {
+		List<Article> result=searchService.searchArticles();
 		return result;
 	}
 }

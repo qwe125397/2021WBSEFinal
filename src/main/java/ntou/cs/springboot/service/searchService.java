@@ -29,7 +29,7 @@ public class searchService {
 	public user creatUser(Map<String, String> map) {
 		user newuser1 = new user();
 		UUID uid = UUID.fromString("38400000-8cf0-11bd-b23e-10b96e4ef00d"); 
-		newuser1.setId(map.get("userId").toString());
+		newuser1.setId(map.get("account").toString());
 		newuser1.setPassword(map.get("password").toString());
 		userRepository.insert(newuser1);	
 		return newuser1;
