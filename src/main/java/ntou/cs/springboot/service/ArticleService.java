@@ -3,15 +3,20 @@ package ntou.cs.springboot.service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ntou.cs.springboot.entity.Article;
 import ntou.cs.springboot.entity.Comment;
+import ntou.cs.springboot.entity.Favorite;
 import ntou.cs.springboot.entity.Response;
+import ntou.cs.springboot.entity.User;
 import ntou.cs.springboot.repository.ArticleRepository;
 import ntou.cs.springboot.repository.CommentRepository;
+import ntou.cs.springboot.repository.FavoriteRepository;
 
 @Service
 public class ArticleService {
@@ -21,10 +26,14 @@ public class ArticleService {
 	
 	@Autowired
 	private ArticleRepository articleRepository;
+	
+	@Autowired
+	private FavoriteRepository favoriteRepository;
 
-	public ArticleService(ArticleRepository articleRepository, CommentRepository commentRepository) {
+	public ArticleService(ArticleRepository articleRepository, CommentRepository commentRepository ,FavoriteRepository favoriteRepository) {
 		this.articleRepository = articleRepository;
 		this.commentRepository = commentRepository;
+		this.favoriteRepository = favoriteRepository;
 	}
 	
 	public Article getArticle(String articleId) {
@@ -102,6 +111,39 @@ public class ArticleService {
 		articleRepository.save(oldarticle);
 		
 		return commentRepository.insert(comment);
+	}
+	
+	//查詢收藏列表
+	public Favorite getFavorite(String userId) {
+		return favoriteRepository.findFirstByUserId(userId);
+	}
+	
+	//新增收藏
+	public void addFavorite(String userId,String articleId) {
+		Favorite favorite=favoriteRepository.findFirstByUserId(userId);
+		ArrayList<String> favoriteList = favorite.getUserFavorite();
+		Set<String> set = new HashSet<String>();
+		set.addAll(favoriteList);
+		set.add(articleId);
+		ArrayList<String> favoriteList2 = new ArrayList<String>();
+		favoriteList2.addAll(set);
+		favorite.setUserFavorite(favoriteList2);
+		favoriteRepository.save(favorite);
+		
+	}
+	
+	//移除收藏
+	public void removeFavorite(String userId,String articleId) {
+		Favorite favorite=favoriteRepository.findFirstByUserId(userId);
+		ArrayList<String> favoriteList = favorite.getUserFavorite();
+		for(int i=0;i<favoriteList.size();i++) {
+			if(favoriteList.get(i).equals(articleId)) {
+				favoriteList.remove(i);
+			}
+		}
+		favorite.setUserFavorite(favoriteList);
+		favoriteRepository.save(favorite);
+		
 	}
 
 }
