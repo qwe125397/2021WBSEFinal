@@ -32,6 +32,10 @@ public class Favorite {
 	public void setId(String id) {
 		this.id = id;
 	}
+	@Override
+	public String toString() {
+		return "Favorite [id=" + id + ", userId=" + userId + ", userFavorite=" + userFavorite + "]";
+	}
 	
 	
 }
