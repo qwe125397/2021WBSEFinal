@@ -29,7 +29,6 @@ import ntou.cs.springboot.entity.FavRequest;
 import ntou.cs.springboot.entity.Favorite;
 import ntou.cs.springboot.entity.ReplaceArticleRequest;
 import ntou.cs.springboot.entity.Response;
-import ntou.cs.springboot.entity.User;
 import ntou.cs.springboot.listener.ReceiveMessageListener;
 import ntou.cs.springboot.service.ArticleService;
 

@@ -18,7 +18,6 @@ import ntou.cs.springboot.entity.CommentRequest;
 import ntou.cs.springboot.entity.Favorite;
 import ntou.cs.springboot.entity.ReplaceArticleRequest;
 import ntou.cs.springboot.entity.Response;
-import ntou.cs.springboot.entity.User;
 import ntou.cs.springboot.repository.ArticleRepository;
 import ntou.cs.springboot.repository.CommentRepository;
 import ntou.cs.springboot.repository.FavoriteRepository;
