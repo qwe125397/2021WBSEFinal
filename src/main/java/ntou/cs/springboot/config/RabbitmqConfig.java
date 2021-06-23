@@ -1,4 +1,4 @@
-package ntou.cs.springboot.rabbitmq;
+package ntou.cs.springboot.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;

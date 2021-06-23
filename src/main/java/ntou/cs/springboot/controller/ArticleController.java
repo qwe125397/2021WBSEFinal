@@ -19,13 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import ntou.cs.springboot.entity.Article;
 import ntou.cs.springboot.entity.Comment;
 import ntou.cs.springboot.entity.FavRequest;
 import ntou.cs.springboot.entity.Favorite;
 import ntou.cs.springboot.entity.Response;
 import ntou.cs.springboot.entity.User;
-import ntou.cs.springboot.rabbitmq.ReceiveMessageListener;
+import ntou.cs.springboot.listener.ReceiveMessageListener;
 import ntou.cs.springboot.service.ArticleService;
 
 
@@ -90,8 +92,9 @@ public class ArticleController {
     }
     
     //查看收藏列表
+    @ApiOperation(value="查看收藏列表",notes="已陣列形式查看該使用者所收藏的文章")
     @GetMapping(value= "/favorite/{userId}")
-    public ResponseEntity<ArrayList<String>> getFavorite(@PathVariable("userId") String userId){
+    public ResponseEntity<ArrayList<String>> getFavorite(@ApiParam(required=true,value="url內放入要查詢的userId")@PathVariable("userId") String userId){
     	
     	Favorite favorite = articleService.getFavorite(userId);
     	
@@ -99,8 +102,9 @@ public class ArticleController {
     }
     
     //新增收藏，經過rabbitmq
+    @ApiOperation(value="新增收藏",notes="請傳入FavRequest格式")
     @PostMapping(value="/newFavorite")
-    public ResponseEntity<Response> addFavorite(@RequestBody FavRequest favRequest){
+    public ResponseEntity<Response> addFavorite(@ApiParam(required=true,value="傳入userId與articleId")@RequestBody FavRequest favRequest){
     	rabbitTemplate.convertAndSend("favorite.queue", favRequest);
     	
     	Response response = new Response();
@@ -111,8 +115,9 @@ public class ArticleController {
     }
     
     //移除收藏
+    @ApiOperation(value="移除收藏",notes="請傳入FavRequest格式")
     @PostMapping(value="/removeFavorite")
-    public ResponseEntity<Response> removeFavorite(@RequestBody FavRequest favRequest){
+    public ResponseEntity<Response> removeFavorite(@ApiParam(required=true,value="傳入userId與articleId")@RequestBody FavRequest favRequest){
     	articleService.removeFavorite(favRequest.getUserId(), favRequest.getArticleId());
     	Response response = new Response();
     	response.setCode(201);

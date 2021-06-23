@@ -1,4 +1,4 @@
-package ntou.cs.springboot.rabbitmq;
+package ntou.cs.springboot.listener;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
