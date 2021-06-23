@@ -34,7 +34,7 @@ public class SwaggerConfig {
     	return new ApiInfoBuilder()
                 .title("海大論壇系統API文件")
                 .description("海大論壇系統API文件")
-                .contact(new Contact("test01", "", "tset01@gmail.com"))
+                .contact(new Contact("網際服務軟體工程", "", "tset01@gmail.com"))
                 .version("1.0")
                 .build();
     }
