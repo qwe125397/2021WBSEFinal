@@ -41,7 +41,7 @@ public class loginController {
 		System.out.println(checkUser.getPassword());
 		if(checkUser.getPassword().equals(map.get("password").toString())){
 			response.setCode(201);
-	    	response.setMsg("登入成功");
+	    	response.setMsg(checkUser.getId());
 		}
 		else {
 	    	response.setCode(201);
