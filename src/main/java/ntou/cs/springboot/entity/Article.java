@@ -7,7 +7,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "article")
+
 public class Article{
+
 	
 	@Id
 	private String id;
@@ -82,6 +84,5 @@ public class Article{
 				", articleName=" + articleName+ ", postTime=" + postTime+ ", articleContent=" +
 				articleContent + ", articleComment=" + articleComment+ "]";
 	}
-
-
 }
+
