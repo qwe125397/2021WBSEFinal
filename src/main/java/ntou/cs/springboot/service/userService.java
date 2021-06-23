@@ -22,8 +22,9 @@ public class userService {
 	private FavoriteRepository favoriteRepository;
 	
 
-	public userService(userRepository userRepository) {
+	public userService(userRepository userRepository,FavoriteRepository favoriteRepository) {
 		this.userRepository = userRepository;
+		this.favoriteRepository = favoriteRepository;
 	}
 	
 	public user creatUser(Map<String, String> map) {
