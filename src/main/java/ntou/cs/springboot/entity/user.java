@@ -5,34 +5,43 @@ import java.util.ArrayList;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 @Document(collection = "user")
-public class user {
+public class User {
+	
 	@Id
 	private String id;
+	
 	@Indexed
 	private String userId;
 	private String password;
-	private ArrayList userArticle; 
+	
 	public String getId() {
-		return userId;
+		return id;
 	}
 
 	public void setId(String id) {
-		this.userId = id;
+		this.id = id;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	
+	public String getUserId() {
+		return userId;
 	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
+	
 	public String getPassword() {
 		return password;
 	}
-	public void addUserArticle(String articleId) {
-		this.userArticle.add(articleId);
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	public void deleteUserArticle(String articleId) {
-		this.userArticle.remove(articleId);
-	}
-	public ArrayList getUserArticle() {
-		return userArticle;
-	}
+	
+	
+	
+	
 }
