@@ -9,9 +9,14 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import ntou.cs.springboot.entity.Article;
+import ntou.cs.springboot.entity.ArticleRequest;
 import ntou.cs.springboot.entity.Comment;
+import ntou.cs.springboot.entity.CommentRequest;
 import ntou.cs.springboot.entity.Favorite;
+import ntou.cs.springboot.entity.ReplaceArticleRequest;
 import ntou.cs.springboot.entity.Response;
 import ntou.cs.springboot.entity.User;
 import ntou.cs.springboot.repository.ArticleRepository;
@@ -52,33 +57,33 @@ public class ArticleService {
 		return time;
 	}
 	
-	public Article createArticle(Map<String, Object> map) {
+	public Article createArticle(ArticleRequest articlerequest) {
 		Integer count = getArtcleCount();
 		count ++;
 		String postTime = getSystemTime();
 		
 		Article article = new Article();
-		article.setAuthorId(map.get("authorId").toString());
+		article.setAuthorId(articlerequest.getAuthorId());
 		article.setArticleId(count.toString());
-		article.setArticleName(map.get("articleName").toString());
+		article.setArticleName(articlerequest.getArticleName());
 		article.setPostTime(postTime);
-		article.setArticleContent(map.get("articleContent").toString());
+		article.setArticleContent(articlerequest.getArticleContent());
 		articleRepository.insert(article);
 		
 		return article;
 	}
 
-	public Response replaceArticle(Map<String, Object> map) {
+	public Response replaceArticle(ReplaceArticleRequest articlerequest) {
 		String postTime = getSystemTime();
-		Article oldArticle = getArticle(map.get("articleId").toString());
+		Article oldArticle = getArticle(articlerequest.getArticleId());
 		
 		Article article = new Article();
 		article.setId(oldArticle.getId());
-		article.setAuthorId(map.get("authorId").toString());
-		article.setArticleId(map.get("articleId").toString());
-		article.setArticleName(map.get("articleName").toString());
+		article.setAuthorId(articlerequest.getAuthorId());
+		article.setArticleId(articlerequest.getArticleId());
+		article.setArticleName(articlerequest.getArticleName());
 		article.setPostTime(postTime);
-		article.setArticleContent(map.get("articleContent").toString());
+		article.setArticleContent(articlerequest.getArticleContent());
 		articleRepository.save(article);
 		
 		Response response = new Response();
@@ -97,13 +102,13 @@ public class ArticleService {
     	return response;
 	}
 	
-	public Comment createComment(String articleId, Map<String, Object> map) {
+	public Comment createComment(String articleId, CommentRequest commentRequest) {
 		String postTime = getSystemTime();
 		Comment comment = new Comment();
 		comment.setArticleId(articleId);
-		comment.setReviewrId(map.get("reviewrId").toString());
+		comment.setReviewrId(commentRequest.getReviewrId());
 		comment.setPostTime(postTime);
-		comment.setCommentContent(map.get("commentContent").toString());
+		comment.setCommentContent(commentRequest.getCommentContent());
 		
 		Article oldarticle = getArticle(articleId);
 		
