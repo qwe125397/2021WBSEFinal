@@ -12,7 +12,6 @@ public class Comment {
 	
 	@Indexed
 	private String articleId;
-	private String commentId;
 	private String reviewrId;
 	private String postTime;
 	private String commentContent;
@@ -67,7 +66,7 @@ public class Comment {
 	
 	@Override
 	public String toString() {
-		return "Note [id=" + id + ", articleId=" + articleId + ", commentId=" + commentId + ", reviewrId=" + reviewrId +
+		return "Note [id=" + id + ", articleId=" + articleId  + ", reviewrId=" + reviewrId +
 				", postTime=" + postTime+ ", commentContent=" + commentContent + "]";
 	}
 
