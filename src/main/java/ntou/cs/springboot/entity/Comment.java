@@ -12,7 +12,6 @@ public class Comment {
 	
 	@Indexed
 	private String articleId;
-	private String commentId;
 	private String reviewrId;
 	private String postTime;
 	private String commentContent;
@@ -31,14 +30,6 @@ public class Comment {
 
 	public void setArticleId(String articleId) {
 		this.articleId = articleId;
-	}
-	
-	public String getCommentId() {
-		return commentId;
-	}
-
-	public void setCommentId(String commentId) {
-		this.commentId = commentId;
 	}
 	
 	public String getReviewrId() {
@@ -67,7 +58,7 @@ public class Comment {
 	
 	@Override
 	public String toString() {
-		return "Note [id=" + id + ", articleId=" + articleId + ", commentId=" + commentId + ", reviewrId=" + reviewrId +
+		return "Note [id=" + id + ", articleId=" + articleId  + ", reviewrId=" + reviewrId +
 				", postTime=" + postTime+ ", commentContent=" + commentContent + "]";
 	}
 

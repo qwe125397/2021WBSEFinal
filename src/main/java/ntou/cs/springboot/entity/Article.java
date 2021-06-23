@@ -83,5 +83,4 @@ public class Article{
 				articleContent + ", articleComment=" + articleComment+ "]";
 	}
 
-
 }
