@@ -22,9 +22,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import ntou.cs.springboot.entity.Article;
+import ntou.cs.springboot.entity.ArticleRequest;
 import ntou.cs.springboot.entity.Comment;
+import ntou.cs.springboot.entity.CommentRequest;
 import ntou.cs.springboot.entity.FavRequest;
 import ntou.cs.springboot.entity.Favorite;
+import ntou.cs.springboot.entity.ReplaceArticleRequest;
 import ntou.cs.springboot.entity.Response;
 import ntou.cs.springboot.entity.User;
 import ntou.cs.springboot.listener.ReceiveMessageListener;
@@ -43,9 +46,10 @@ public class ArticleController {
 	@Autowired
     private ArticleService articleService;
 	
+	@ApiOperation(value="新增文章",notes="請傳入ArticleRequest格式")
 	@PostMapping(value = "/newArticle")
-    public ResponseEntity<Response> createArticle(@RequestBody Map<String, Object> map) {
-		Article article = articleService.createArticle(map);
+    public ResponseEntity<Response> createArticle(@ApiParam(required=true,value="body傳入要新增的authorId, articleName, articleContent")@RequestBody ArticleRequest articlerequest) {
+		Article article = articleService.createArticle(articlerequest);
     	
     	URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -60,23 +64,26 @@ public class ArticleController {
         return ResponseEntity.created(location).body(response);
     }
 
+	@ApiOperation(value="修改文章",notes="請傳入ReplaceArticleRequest格式")
     @PutMapping(value = "/editArticle")
-    public ResponseEntity<Response> replaceArticle(@RequestBody Map<String, Object> map) {
-    	Response response = articleService.replaceArticle(map);
+    public ResponseEntity<Response> replaceArticle(@ApiParam(required=true,value="body傳入要修改的articleId, authorId, articleName, articleContent")@RequestBody ReplaceArticleRequest articlerequest) {
+    	Response response = articleService.replaceArticle(articlerequest);
     	
         return ResponseEntity.ok(response);
     }
 
+	@ApiOperation(value="刪除文章",notes="傳入字串刪除")
     @DeleteMapping(value = "/deleteArticle/{articleId}")
-    public ResponseEntity<Response> deleteArticle(@PathVariable("articleId") String articleId) {
+    public ResponseEntity<Response> deleteArticle(@ApiParam(required=true,value="url放入要刪除的articleId")@PathVariable("articleId") String articleId) {
     	Response response = articleService.deleteArticle(articleId);
     	
         return ResponseEntity.ok(response);
     }
     
+	@ApiOperation(value="新增評論",notes="請傳入CommentRequest格式")
     @PostMapping(value = "/{articleId}/newComment")
-    public ResponseEntity<Response> createComment(@PathVariable("articleId") String articleId, @RequestBody Map<String, Object> map) {
-    	Comment comment = articleService.createComment(articleId, map);
+    public ResponseEntity<Response> createComment(@ApiParam(required=true,value="url傳入articleId，在body傳入reviewrId, commentContent")@PathVariable("articleId") String articleId, @RequestBody CommentRequest commentRequest) {
+    	Comment comment = articleService.createComment(articleId, commentRequest);
     	
     	URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
