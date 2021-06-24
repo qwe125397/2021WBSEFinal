@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import ntou.cs.springboot.entity.Article;
 import ntou.cs.springboot.entity.Comment;
+import ntou.cs.springboot.entity.Favorite;
 import ntou.cs.springboot.entity.user;
+import ntou.cs.springboot.repository.FavoriteRepository;
 import ntou.cs.springboot.repository.userRepository;
 
 @Service
@@ -16,9 +18,13 @@ public class userService {
 	@Autowired
 	private userRepository userRepository;
 	
+	@Autowired
+	private FavoriteRepository favoriteRepository;
+	
 
-	public userService(userRepository userRepository) {
+	public userService(userRepository userRepository,FavoriteRepository favoriteRepository) {
 		this.userRepository = userRepository;
+		this.favoriteRepository = favoriteRepository;
 	}
 	
 	public user creatUser(Map<String, String> map) {
@@ -27,6 +33,14 @@ public class userService {
 		newuser.setId(map.get("account").toString());
 		newuser.setPassword(map.get("password").toString());
 		userRepository.insert(newuser);	
+		
+		//在資料庫中新增favorite
+		Favorite favorite = new Favorite();
+		favorite.setUserId(map.get("account").toString());
+		ArrayList<String> favList = new ArrayList<>();
+		favorite.setUserFavorite(favList);
+		favoriteRepository.insert(favorite);
+		
 		return newuser;
 	}
 	public user getUser(String userId) {
