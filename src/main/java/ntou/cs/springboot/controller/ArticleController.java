@@ -100,11 +100,11 @@ public class ArticleController {
     //查看收藏列表
     @ApiOperation(value="查看收藏列表",notes="已陣列形式查看該使用者所收藏的文章")
     @GetMapping(value= "/favorite/{userId}")
-    public ResponseEntity<ArrayList<String>> getFavorite(@ApiParam(required=true,value="url內放入要查詢的userId")@PathVariable("userId") String userId){
+    public ResponseEntity<ArrayList<Article>> getFavorite(@ApiParam(required=true,value="url內放入要查詢的userId")@PathVariable("userId") String userId){
     	
-    	Favorite favorite = articleService.getFavorite(userId);
+    	ArrayList<Article> favorite = articleService.getFavorite(userId);
     	
-    	return ResponseEntity.ok(favorite.getUserFavorite());
+    	return ResponseEntity.ok(favorite);
     }
     
     //新增收藏，經過rabbitmq
