@@ -118,8 +118,15 @@ public class ArticleService {
 	}
 	
 	//查詢收藏列表
-	public Favorite getFavorite(String userId) {
-		return favoriteRepository.findFirstByUserId(userId);
+	public ArrayList<Article> getFavorite(String userId) {
+		Favorite favorite = favoriteRepository.findFirstByUserId(userId);
+		ArrayList<String> favList = favorite.getUserFavorite();
+    	ArrayList<Article> artList = new ArrayList<>();
+    	for(String fav:favList) {
+    		artList.add(articleRepository.findFirstByArticleId(fav));
+    	}
+		
+		return artList;
 	}
 	
 	//新增收藏
