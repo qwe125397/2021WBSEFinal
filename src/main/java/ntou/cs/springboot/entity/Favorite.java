@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection="favorite")
 public class Favorite {
 	
+	@Id
+	public String id;
 	
 	public String userId;
 	public ArrayList<String> userFavorite;
@@ -23,6 +25,12 @@ public class Favorite {
 	}
 	public void setUserFavorite(ArrayList<String> userFavorite) {
 		this.userFavorite = userFavorite;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	
