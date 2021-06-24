@@ -30,6 +30,7 @@ import ntou.cs.springboot.entity.Favorite;
 import ntou.cs.springboot.entity.ReplaceArticleRequest;
 import ntou.cs.springboot.entity.Response;
 import ntou.cs.springboot.listener.ReceiveMessageListener;
+import ntou.cs.springboot.repository.FavoriteRepository;
 import ntou.cs.springboot.service.ArticleService;
 
 
@@ -107,15 +108,23 @@ public class ArticleController {
     	return ResponseEntity.ok(favorite);
     }
     
+    @Autowired
+	private FavoriteRepository favoriteRepository;
+    
     //新增收藏，經過rabbitmq
     @ApiOperation(value="新增收藏",notes="請傳入FavRequest格式")
     @PostMapping(value="/newFavorite")
     public ResponseEntity<Response> addFavorite(@ApiParam(required=true,value="傳入userId與articleId")@RequestBody FavRequest favRequest){
-    	rabbitTemplate.convertAndSend("favorite.queue", favRequest);
-    	
     	Response response = new Response();
-    	response.setCode(201);
-    	response.setMsg("新增收藏成功");
+    	
+    	if(favoriteRepository.findFirstByUserId(favRequest.getUserId())==null) {
+    		response.setCode(501);
+        	response.setMsg("用戶不存在");
+    	}else {
+    		rabbitTemplate.convertAndSend("favorite.queue", favRequest);
+    		response.setCode(201);
+        	response.setMsg("新增收藏成功");
+    	}
     	
     	return ResponseEntity.ok(response);
     }
